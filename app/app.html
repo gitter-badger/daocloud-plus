@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Standard Meta -->
+  <meta charset="utf-8"/>
+
+  <!-- Site Properties -->
+  <title>DaoCloud</title>
+  <link rel="stylesheet" type="text/css" href="./node_modules/semantic-ui-css/semantic.css">
+  <link rel="stylesheet" type="text/css" href="./stylesheets/main.css">
+  <script src="./node_modules/jquery/dist/jquery.js"></script>
+  <script src="./node_modules/semantic-ui-css/semantic.js"></script>
+  <script src="vendor/electron_boilerplate/context_menu.js"></script>
+  <script src="vendor/electron_boilerplate/external_links.js"></script>
+
+  <style type="text/css">
+    body, html {
+      margin: 0;
+      font-size: 12px;
+      font-family: Helvetica Neue, Lucida Grande, Segoe UI, Tahoma, sans;
+      overflow: hidden !important;
+      color: #333;
+      background-color: rgba(0, 0, 0, 0);
+    }
+
+    section {
+      background: #fff;
+      margin: 10px 13px 13px 13px;
+      padding: 9px;
+      border-radius: 7px;
+      border: 1px solid #A9A9A9;
+      box-shadow: 0px 3px 13px rgba(0, 0, 0, 0.25);
+      position: relative;
+    }
+
+    section::after, section::before {
+      position: absolute;
+      content: '';
+      display: block;
+      width: 0;
+      height: 0;
+    }
+
+    section::before {
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-bottom: 10px solid #A9A9A9;
+      top: -10px;
+      left: calc(50% - 11px);
+    }
+
+    section::after {
+      border-left: 9px solid transparent;
+      border-right: 9px solid transparent;
+      border-bottom: 9px solid #fff;
+      top: -9px;
+      left: calc(50% - 10px);
+    }
+
+    header {
+      color: #555555;
+      height: 35px;
+      line-height: 35px;
+      margin: -9px -9px 0px -9px;
+      background: linear-gradient(180deg, #fff, #E9E9E9);
+      border-top-left-radius: 7px;
+      border-top-right-radius: 7px;
+      border-bottom: 1px solid #adadad;
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+
+    header > .ui.grid > .column:not(.row) {
+      padding: 0em;
+    }
+
+    header > .ui.grid > .column > .title {
+      height: 35px;
+      line-height: 35px;
+      font-size: 12px;
+    }
+
+    .build-flows.segment {
+      min-width: 100%;
+      min-height: 60px;
+      margin: 0;
+      padding: 0;
+    }
+    .build-flows.segment > .list {
+      margin: 0;
+    }
+
+    .apps.container {
+      min-width: 100%;
+      min-height: 60px;
+    }
+
+    footer {
+      color: #555555;
+      height: 35px;
+      line-height: 35px;
+      margin: 0px -9px -9px -9px;
+      background: linear-gradient(180deg, #fff, #E9E9E9);
+      border-bottom-left-radius: 7px;
+      border-bottom-right-radius: 7px;
+      border-top: 1px solid #adadad;
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+
+    footer > .ui.grid > .column:not(.row) {
+      padding: 0em;
+    }
+  </style>
+</head>
+<body>
+
+<section>
+  <header>
+    <div class="ui equal width padded grid" onselectstart="return false;">
+      <div class="right floated left aligned column">
+        <a class="js-external-link" href="https://www.daocloud.io"><i class="large world icon"></i></a>
+      </div>
+      <div class="eight wide center aligned column">
+        <h4 class="title">DaoCloud</h4>
+      </div>
+      <div class="left floated right aligned column">
+        <a class="js-external-link" href="https://github.com/lijy91/daocloud-plus"><i class="star icon"></i>新版本</a>
+      </div>
+    </div>
+  </header>
+  <div class="ui build-flows basic segment">
+    <div class="ui active inverted dimmer">
+      <div class="ui medium text loader"></div>
+    </div>
+
+    <div class="ui relaxed divided list" style="overflow-y:auto;white-space:nowrap;max-height:210px;">
+      <div class="item">
+        <i class="large github middle aligned icon"></i>
+
+        <div class="content">
+          <a class="header">Semantic-Org/Semantic-UI</a>
+
+          <div class="description">Updated 10 mins ago</div>
+        </div>
+      </div>
+      <div class="item">
+        <i class="large github middle aligned icon"></i>
+
+        <div class="content">
+          <a class="header">Semantic-UI</a>
+
+          <div class="description">Updated 10 mins ago</div>
+        </div>
+      </div>
+      <div class="item">
+        <i class="large github middle aligned icon"></i>
+
+        <div class="content">
+          <a class="header">Semantic-Org/Semantic-UI</a>
+
+          <div class="description">Updated 10 mins ago</div>
+        </div>
+      </div>
+      <div class="item">
+        <i class="large github middle aligned icon"></i>
+
+        <div class="content">
+          <a class="header">Semantic-Org/Semantic-UI</a>
+
+          <div class="description">Updated 10 mins ago</div>
+        </div>
+      </div>
+      <div class="item">
+        <i class="large github middle aligned icon"></i>
+
+        <div class="content">
+          <a class="header">Semantic-Org/Semantic-UI-Docs</a>
+
+          <div class="description">Updated 22 mins ago</div>
+        </div>
+      </div>
+      <div class="item">
+        <i class="large github middle aligned icon"></i>
+
+        <div class="content">
+          <a class="header">Semantic-Org/Semantic-UI-Meteor</a>
+
+          <div class="description">Updated 34 mins ago</div>
+        </div>
+      </div>
+      <div class="item">
+        <i class="large github middle aligned icon"></i>
+
+        <div class="content">
+          <a class="header">lijy91/BlankApp</a>
+
+          <div class="description">Updated 36 mins ago</div>
+        </div>
+      </div>
+      <div class="item">
+        <i class="large github middle aligned icon"></i>
+
+        <div class="content">
+          <a class="header">lijy91/ci-android</a>
+
+          <div class="description">Updated 41 mins ago</div>
+        </div>
+      </div>
+      <div class="item">
+        <i class="large github middle aligned icon"></i>
+
+        <div class="content">
+          <a class="header">lijy91/daocloud-tray</a>
+
+          <div class="description">Updated 48 mins ago</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="ui equal width padded grid" onselectstart="return false;">
+      <div class="eight wide column">
+        <div class="ui icon buttons">
+          <button class="ui button">代码构建</button>
+          <button class="ui button">应用列表</button>
+        </div>
+      </div>
+      <div class="column">
+
+      </div>
+      <div class="left floated right aligned column">
+        <a><i class="large setting icon"></i></a>
+      </div>
+    </div>
+  </footer>
+</section>
+</body>
+</html>

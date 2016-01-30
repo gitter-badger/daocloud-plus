@@ -1,0 +1,16 @@
+{
+  "name": "daocloud-plus",
+  "productName": "DaoCloud Plus",
+  "identifier": "org.blankapp.daocloudplus",
+  "description": "Starter for your Electron application. Out of the box ready for serious stuff.",
+  "version": "0.1.0",
+  "author": "JianyingLi <lijy91@foxmail.com>",
+  "copyright": "© 2016, JianyingLi",
+  "main": "background.js",
+  "dependencies": {
+    "fs-jetpack": "^0.7.0",
+    "jquery": "^2.2.0",
+    "menubar": "^3.0.0",
+    "semantic-ui-css": "^2.1.8"
+  }
+}
