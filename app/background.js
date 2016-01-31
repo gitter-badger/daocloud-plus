@@ -3,11 +3,12 @@
 // It doesn't have any windows which you can see on screen, but we can open
 // window from here.
 var path = require('path')
-var app = require('app')
 var menubar = require('menubar')
 
 var mb = menubar({
-  index: 'file://' + path.join(app.getAppPath(), 'app.html'),
+  index: 'file://' + path.join(__dirname, 'app.html'),
+  width: 350,
+  height: 400,
   preloadWindow: true,
   hasShadow: false,
   transparent: true

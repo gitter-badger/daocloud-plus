@@ -11,6 +11,7 @@
     "fs-jetpack": "^0.7.0",
     "jquery": "^2.2.0",
     "menubar": "^3.0.0",
-    "semantic-ui-css": "^2.1.8"
+    "semantic-ui-css": "^2.1.8",
+    "vue": "^1.0.16"
   }
 }
