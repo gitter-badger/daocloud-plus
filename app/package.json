@@ -1,6 +1,6 @@
 {
   "name": "daocloud-plus",
-  "productName": "DaoCloud Plus",
+  "productName": "DaoCloud+",
   "identifier": "org.blankapp.daocloudplus",
   "description": "Starter for your Electron application. Out of the box ready for serious stuff.",
   "version": "0.1.0",
