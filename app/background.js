@@ -6,6 +6,7 @@ var path = require('path')
 var menubar = require('menubar')
 
 var mb = menubar({
+  icon: path.join(__dirname, 'images/tray.png'),
   index: 'file://' + path.join(__dirname, 'app.html'),
   width: 350,
   height: 400,
