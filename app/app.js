@@ -1,24 +1,75 @@
-// // Here is the starting point for your application code.
-// // All stuff below is just to show you how it works. You can delete all of it.
-//
-// // Use new ES6 modules syntax for everything.
-// import os from 'os'; // native node.js module
-// import { remote } from 'electron'; // native electron module
-// import jetpack from 'fs-jetpack'; // module loaded from npm
-// import { greet } from './hello_world/hello_world'; // code authored by you in this project
-// import env from './env';
-//
-// console.log('Loaded environment variables:', env);
-//
-// var app = remote.app;
-// var appDir = jetpack.cwd(app.getAppPath());
-//
-// // Holy crap! This is browser window with HTML and stuff, but I can read
-// // here files like it is node.js! Welcome to Electron world :)
-// console.log('The author of this app is:', appDir.read('package.json', 'json').author);
-//
-// document.addEventListener('DOMContentLoaded', function () {
-//     document.getElementById('greet').innerHTML = greet();
-//     document.getElementById('platform-info').innerHTML = os.platform();
-//     document.getElementById('env-name').innerHTML = env.name;
-// });
+/**
+ * Copyright (C) 2015 JianyingLi <lijy91@foxmail.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+var Vue = require('vue');
+Vue.use(require('vue-resource'));
+
+const apiURL = "https://openapi.daocloud.io/v1";
+
+document.addEventListener('DOMContentLoaded', function () {
+  var vm = new Vue({
+
+    el: '#tray',
+
+    data: {
+      loading: true,
+      build_flows: [],
+      apps: null,
+    },
+
+    created: function () {
+      var token = 'ojn4fqxw7jceo4o9ixvhkl1k62omhtzgof5i7wua';
+      Vue.http.headers.common['Authorization'] = 'token ' + token;
+
+      this.fetchData()
+    },
+
+    methods: {
+      // 切换 Tab
+      tabChange: function (flag) {
+        if (flag == 'build-flows') {
+          this.fetchData()
+        } else if (flag == 'apps'){
+          this.fetchData2()
+        }
+      },
+      // 加载
+      fetchData: function () {
+        this.$set('loading', true);
+        this.$http.get(apiURL + '/build-flows').then(function (response) {
+          console.log(response.data.build_flows)
+          // set data on vm
+          this.$set('build_flows', response.data.build_flows);
+          this.$set('loading', false);
+        }, function (response) {
+            // error callback
+        });
+      },
+      // 应用列表
+      fetchData2: function () {
+        this.$set('loading', true);
+        this.$http.get(apiURL + '/apps').then(function (response) {
+          console.log(response.data.app)
+          // set data on vm
+          this.$set('apps', response.data.app);
+          this.$set('loading', false);
+        }, function (response) {
+            // error callback
+        });
+      }
+    }
+  });
+});

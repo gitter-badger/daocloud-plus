@@ -17,6 +17,7 @@
   },
   "scripts": {
     "postinstall": "cd app && npm install",
+    "clean": "gulp clean && rm -rf releases",
     "build": "gulp build",
     "release": "gulp release --env=production",
     "start": "node ./tasks/start",
