@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!-- Standard Meta -->
   <meta charset="utf-8"/>
-
-  <!-- Site Properties -->
   <title>DaoCloud Plus</title>
   <link rel="stylesheet" type="text/css" href="./node_modules/semantic-ui-css/semantic.css">
   <link rel="stylesheet" type="text/css" href="./vendor/icomoon/style.css">
@@ -12,7 +9,6 @@
   <!-- <script src="./node_modules/jquery/dist/jquery.js"></script> -->
   <script>window.$ = window.jQuery = require('./node_modules/jquery/dist/jquery.js');</script>
   <script src="./node_modules/semantic-ui-css/semantic.js"></script>
-  <!-- <script src="./node_modules/vue/dist/vue.js"></script> -->
   <script src="vendor/electron_boilerplate/context_menu.js"></script>
   <script src="vendor/electron_boilerplate/external_links.js"></script>
   <script src="./app.js"></script>
@@ -41,7 +37,7 @@
         <a class="js-external-link" href="https://www.daocloud.io"><i class="large world icon"></i></a>
       </div>
       <div class="eight wide center aligned column">
-        <h4 class="title">DaoCloud+</h4>
+        <h4 class="title" style="cursor:default;">DaoCloud+</h4>
       </div>
       <div class="left floated right aligned column">
         <a class="js-external-link" href="https://github.com/lijy91/daocloud-plus/blob/master/CHANGELOGS.md"><i class="star icon"></i>新版本</a>
@@ -104,7 +100,7 @@
 
       </div>
       <div class="left floated right aligned column">
-        <a><i class="large setting icon"></i></a>
+        <a><i class="large setting icon" v-on:click="preferences"></i></a>
       </div>
     </div>
   </footer>

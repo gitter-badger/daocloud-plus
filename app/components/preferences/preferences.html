@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>首选项</title>
+  <link rel="stylesheet" type="text/css" href="../../node_modules/semantic-ui-css/semantic.css">
+  <link rel="stylesheet" type="text/css" href="../../stylesheets/main.css">
+  <!-- <script src="./node_modules/jquery/dist/jquery.js"></script> -->
+  <script>window.$ = window.jQuery = require('../../node_modules/jquery/dist/jquery.js');</script>
+  <script src="../../node_modules/semantic-ui-css/semantic.js"></script>
+  <script src="../../vendor/electron_boilerplate/context_menu.js"></script>
+  <script src="../../vendor/electron_boilerplate/external_links.js"></script>
+  <script src="./preferences.js"></script>
+
+  <style type="text/css">
+    body, html {
+      background-color: #ececec;
+    }
+  </style>
+</head>
+<body>
+<div id="preferences" class="ui container">
+  <form class="ui form">
+    <div class="field">
+      <label>API Token</label>
+      <input type="text" v-model="api_token" placeholder="用来授权 DaoCloud+ 通过 API 访问您的资源">
+    </div>
+  </form>
+</div>
+</body>
+</html>

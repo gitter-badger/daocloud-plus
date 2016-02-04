@@ -15,9 +15,10 @@
  */
 
 import env from './env';
-
-var path = require('path')
-var menubar = require('menubar')
+const electron = require('electron');
+const globalShortcut = electron.globalShortcut;
+const path = require('path')
+const menubar = require('menubar')
 
 var mb = menubar({
   icon: path.join(__dirname, 'images/tray.png'),
@@ -34,4 +35,28 @@ mb.on('ready', function ready () {
     // Open the DevTools.
     mb.window.webContents.openDevTools();
   }
+  // 退出
+  mb.window.on('closed', function() {
+    console.log('Unregister a shortcut');
+    // Unregister a shortcut.
+    globalShortcut.unregister('ctrl+p');
+
+    // Unregister all shortcuts.
+    globalShortcut.unregisterAll();
+
+    // 退出程序
+    mb.app.quit();
+  });
+  // Register a shortcut listener.
+  var ret = globalShortcut.register('ctrl+p', function() {
+    console.log('ctrl+p is pressed');
+    mb.window.isVisible() ? mb.hideWindow() : mb.showWindow();
+  });
+
+  if (!ret) {
+    console.log('registration failed');
+  }
+
+  // Check whether a shortcut is registered.
+  console.log(globalShortcut.isRegistered('ctrl+p'));
 });
