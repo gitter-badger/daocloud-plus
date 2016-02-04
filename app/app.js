@@ -15,6 +15,7 @@
  */
 
 import env from './env';
+const version = require('./package.json').version;
 const electron = require('electron');
 const app = electron.app;
 const shell = electron.shell;
@@ -34,14 +35,17 @@ document.addEventListener('DOMContentLoaded', function () {
     el: '#tray',
 
     data: {
+      need_update: false,
       loading: true,
       build_flows: [],
       apps: null,
     },
 
     created: function () {
+      // 检查更新
+      this.checkNewVersion();
       // 初次启动获取代码构建数据
-      this.fetchBuildFlows()
+      this.fetchBuildFlows();
     },
 
     methods: {
@@ -118,13 +122,29 @@ document.addEventListener('DOMContentLoaded', function () {
           this.fetchApps()
         }
       },
+      // 检查新版本
+      checkNewVersion: function () {
+        this.$http.get('https://raw.githubusercontent.com/lijy91/daocloud-plus/master/app/package.json').then(function (response) {
+          var data = response.data;
+          console.log(data);
+          console.log(version);
+          if (data.version > version) {
+            this.$set('need_update', true);
+          }
+        }, function (response) {
+            // error callback
+            console.log(response);
+        });
+      },
       // 获取代码构建数据
       fetchBuildFlows: function () {
-        // 设置 API Token
-        Vue.http.headers.common['Authorization'] = 'token ' + this.getApiToken();
         // 设置为加载中
         this.$set('loading', true);
-        this.$http.get(apiURL + '/build-flows').then(function (response) {
+        this.$http.get(apiURL + '/build-flows', null, {
+          headers: {
+            'Authorization': 'token ' + this.getApiToken()
+          }
+        }).then(function (response) {
           // set data on vm
           this.$set('build_flows', response.data.build_flows);
           this.$set('loading', false);
@@ -135,11 +155,13 @@ document.addEventListener('DOMContentLoaded', function () {
       },
       // 获取应用管理数据
       fetchApps: function () {
-        // 设置 API Token 保证每次都是最新的 Token
-        Vue.http.headers.common['Authorization'] = 'token ' + this.getApiToken();
         // 设置为加载中
         this.$set('loading', true);
-        this.$http.get(apiURL + '/apps').then(function (response) {
+        this.$http.get(apiURL + '/apps', null, {
+          headers: {
+            'Authorization': 'token ' + this.getApiToken()
+          }
+        }).then(function (response) {
           // set data on vm
           this.$set('apps', response.data.app);
           this.$set('loading', false);
