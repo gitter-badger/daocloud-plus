@@ -24,6 +24,7 @@ const BrowserWindow = remote.BrowserWindow;
 const Menu = remote.Menu;
 const MenuItem = remote.MenuItem;
 const Vue = require('vue');
+const moment = require('moment');
 Vue.use(require('vue-resource'));
 
 const apiURL = "https://openapi.daocloud.io/v1";
@@ -55,23 +56,11 @@ document.addEventListener('DOMContentLoaded', function () {
       },
       // 首选项
       preferences: function () {
-        // 个人信息
-        // --------
         // 首选项
         // 意见反馈
         // --------
         // 退出
         var template = [
-          // {
-          //   label: '个人信息',
-          //   enabled: false,
-          //   click: function() {
-          //     console.log('点击了个人信息')
-          //   }
-          // },
-          // {
-          //   type: 'separator'
-          // },
           {
             label: '首选项',
             click: function() {
@@ -126,8 +115,6 @@ document.addEventListener('DOMContentLoaded', function () {
       checkNewVersion: function () {
         this.$http.get('https://raw.githubusercontent.com/lijy91/daocloud-plus/master/app/package.json').then(function (response) {
           var data = response.data;
-          console.log(data);
-          console.log(version);
           if (data.version > version) {
             this.$set('need_update', true);
           }
@@ -141,9 +128,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // 设置为加载中
         this.$set('loading', true);
         this.$http.get(apiURL + '/build-flows', null, {
-          headers: {
-            'Authorization': 'token ' + this.getApiToken()
-          }
+          headers: { 'Authorization': 'token ' + this.getApiToken() }
         }).then(function (response) {
           // set data on vm
           this.$set('build_flows', response.data.build_flows);
@@ -158,9 +143,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // 设置为加载中
         this.$set('loading', true);
         this.$http.get(apiURL + '/apps', null, {
-          headers: {
-            'Authorization': 'token ' + this.getApiToken()
-          }
+          headers: { 'Authorization': 'token ' + this.getApiToken() }
         }).then(function (response) {
           // set data on vm
           this.$set('apps', response.data.app);
@@ -170,6 +153,16 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log(response);
         });
       }
+    },
+    filters: {
+      moment: function (date) {
+        moment.locale('zh-cn');
+        return moment(date, 'YYYY-MM-DDThh:mm:ssTZD').fromNow();
+      }
     }
   });
+  // setInterval(function () {
+  //   vm.fetchBuildFlows();
+  //   vm.fetchApps();
+  // }, 5000);
 });

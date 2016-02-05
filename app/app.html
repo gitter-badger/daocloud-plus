@@ -69,7 +69,7 @@
           <div class="content">
             <a class="header js-external-link" href="https://dashboard.daocloud.io/build-flows/{{flow.id}}">{{flow.name}}</a>
             <div class="description">
-              {{flow.created_at}} | {{flow.status}}
+              {{ flow.created_at | moment }} | {{flow.status}}
             </div>
           </div>
         </div>
@@ -79,10 +79,9 @@
     <div class="ui basic tab segment" data-tab="apps">
       <div class="ui relaxed divided list" id="apps">
         <div class="item" v-for="app in apps">
-          <i class="large github middle aligned icon"></i>
           <div class="content">
-            <a class="header">{{app.name}} | {{app.release_name}}</a>
-            <div class="description">{{app.last_operated_at}} | {{app.state}}</div>
+            <a class="header">{{ app.name }} | {{ app.release_name }}</a>
+            <div class="description">{{ app.last_operated_at | moment }} | {{ app.state }}</div>
           </div>
         </div>
       </div>
