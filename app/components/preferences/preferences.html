@@ -11,7 +11,11 @@
   <script src="../../vendor/electron_boilerplate/context_menu.js"></script>
   <script src="../../vendor/electron_boilerplate/external_links.js"></script>
   <script src="./preferences.js"></script>
-
+  <script type="text/javascript">
+    $(function () {
+      $('.ui.checkbox').checkbox();
+    });
+  </script>
   <style type="text/css">
     body, html {
       background-color: #ececec;
@@ -21,6 +25,12 @@
 <body>
 <div id="preferences" class="ui container">
   <form class="ui form">
+    <div class="field">
+      <div class="ui checkbox">
+        <input type="checkbox" tabindex="0" class="hidden" v-model="auto_launch">
+        <label>开机自启动</label>
+      </div>
+    </div>
     <div class="field">
       <label>API Token</label>
       <input type="text" v-model="api_token" placeholder="用来授权 DaoCloud+ 通过 API 访问您的资源">

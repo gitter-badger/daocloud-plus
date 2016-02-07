@@ -15,6 +15,10 @@
  */
 
 const Vue = require('vue');
+const AutoLaunch = require('auto-launch');
+const productName = require('../../package.json').productName;
+
+var appLauncher = new AutoLaunch({ name: productName });
 
 document.addEventListener('DOMContentLoaded', function () {
   var vm = new Vue({
@@ -23,15 +27,33 @@ document.addEventListener('DOMContentLoaded', function () {
 
     data: {
       api_token: localStorage.getItem('api_token'),
+      auto_launch: localStorage.getItem('auto_launch')
     },
 
     watch: {
-      api_token: 'aptTokenChanged'
+      api_token: 'apiTokenChanged',
+      auto_launch: 'autoLaunchCahnge'
     },
 
     methods: {
-      aptTokenChanged: function () {
+      apiTokenChanged: function () {
         localStorage.setItem('api_token', this.api_token);
+      },
+      // 开机自启动
+      autoLaunchCahnge: function () {
+        if (this.auto_launch) {
+          appLauncher.enable(function(err) {
+            if (!err) {
+              localStorage.setItem('auto_launch', true);
+            }
+          });
+        } else {
+          appLauncher.disable(function(err) {
+            if (!err) {
+              localStorage.setItem('auto_launch', false);
+            }
+          });
+        }
       }
     }
   });

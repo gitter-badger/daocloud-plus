@@ -84,6 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
               win.show();
 
               winPref = win;
+              win.webContents.openDevTools();
             }
           },
           {
