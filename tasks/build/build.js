@@ -3,12 +3,15 @@
 var pathUtil = require('path');
 var Q = require('q');
 var gulp = require('gulp');
-var rollup = require('rollup');
 var less = require('gulp-less');
+var watch = require('gulp-watch');
+var batch = require('gulp-batch');
+var plumber = require('gulp-plumber');
 var jetpack = require('fs-jetpack');
 
-var utils = require('./utils');
-var generateSpecsImportFile = require('./generate_specs_import');
+var bundle = require('./bundle');
+var generateSpecImportsFile = require('./generate_spec_imports');
+var utils = require('../utils');
 
 var projectDir = jetpack;
 var srcDir = projectDir.cwd('./app');
@@ -16,9 +19,8 @@ var destDir = projectDir.cwd('./build');
 
 var paths = {
     copyFromAppDir: [
-        './components/**',
         './node_modules/**',
-        './vendor/**',
+        './helpers/**',
         './**/*.html',
         './**/*.+(jpg|png|svg)'
     ],
@@ -35,55 +37,24 @@ gulp.task('clean', function (callback) {
 
 var copyTask = function () {
     return projectDir.copyAsync('app', destDir.path(), {
-        overwrite: true,
-        matching: paths.copyFromAppDir
-    });
+            overwrite: true,
+            matching: paths.copyFromAppDir
+        });
 };
 gulp.task('copy', ['clean'], copyTask);
 gulp.task('copy-watch', copyTask);
 
 
-var bundle = function (src, dest) {
-    var deferred = Q.defer();
-
-    rollup.rollup({
-        entry: src,
-    }).then(function (bundle) {
-        var jsFile = pathUtil.basename(dest);
-        var result = bundle.generate({
-            format: 'cjs',
-            sourceMap: true,
-            sourceMapFile: jsFile,
-        });
-        // Wrap code in self invoking function so the variables don't
-        // pollute the global namespace.
-        var isolatedCode = '(function () {' + result.code + '\n}());';
-        return Q.all([
-            destDir.writeAsync(dest, isolatedCode + '\n//# sourceMappingURL=' + jsFile + '.map'),
-            destDir.writeAsync(dest + '.map', result.map.toString()),
-        ]);
-    }).then(function () {
-        deferred.resolve();
-    }).catch(function (err) {
-        console.error('Build: Error during rollup', err.stack);
-    });
-
-    return deferred.promise;
-};
-
 var bundleApplication = function () {
     return Q.all([
-        bundle(srcDir.path('background.js'), destDir.path('background.js')),
-        bundle(srcDir.path('app.js'), destDir.path('app.js')),
-    ]);
+            bundle(srcDir.path('background.js'), destDir.path('background.js')),
+            bundle(srcDir.path('app.js'), destDir.path('app.js')),
+        ]);
 };
 
 var bundleSpecs = function () {
-    generateSpecsImportFile().then(function (specEntryPointPath) {
-        return Q.all([
-            bundle(srcDir.path('background.js'), destDir.path('background.js')),
-            bundle(specEntryPointPath, destDir.path('spec.js')),
-        ]);
+    return generateSpecImportsFile().then(function (specEntryPointPath) {
+        return bundle(specEntryPointPath, destDir.path('spec.js'));
     });
 };
 
@@ -99,8 +70,9 @@ gulp.task('bundle-watch', bundleTask);
 
 var lessTask = function () {
     return gulp.src('app/stylesheets/main.less')
-    .pipe(less())
-    .pipe(gulp.dest(destDir.path('stylesheets')));
+        .pipe(plumber())
+        .pipe(less())
+        .pipe(gulp.dest(destDir.path('stylesheets')));
 };
 gulp.task('less', ['clean'], lessTask);
 gulp.task('less-watch', lessTask);
@@ -132,9 +104,15 @@ gulp.task('finalize', ['clean'], function () {
 
 
 gulp.task('watch', function () {
-    gulp.watch('app/**/*.js', ['bundle-watch']);
-    gulp.watch(paths.copyFromAppDir, { cwd: 'app' }, ['copy-watch']);
-    gulp.watch('app/**/*.less', ['less-watch']);
+    watch('app/**/*.js', batch(function (events, done) {
+        gulp.start('bundle-watch', done);
+    }));
+    watch(paths.copyFromAppDir, { cwd: 'app' }, batch(function (events, done) {
+        gulp.start('copy-watch', done);
+    }));
+    watch('app/**/*.less', batch(function (events, done) {
+        gulp.start('less-watch', done);
+    }));
 });
 
 
