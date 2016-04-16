@@ -37,17 +37,20 @@ Vue.http.options.root = 'https://openapi.daocloud.io/v1'
 var winPref = null;
 
 document.addEventListener('DOMContentLoaded', function () {
-  // 云巴推送
+  // 从 localStorage 获取别名，如果不存在则创建
   var yunba_alias = localStorage.getItem('yunba_alias');
   if (!yunba_alias) {
     yunba_alias = uuid.v4();
     yunba_alias = replaceall("-", "", yunba_alias);
     localStorage.setItem('yunba_alias', yunba_alias);
   }
+  // 初始化云巴SDK
   yunba.init(function (success) {
     if (success) {
+      // 连接服务器
       yunba.connect(function (success, msg) {
         if (success) {
+          // 设置别名，成功后服务端的消息将会在set_message_cb方法接收
           yunba.set_alias({'alias': yunba_alias}, function (data) {
             if (data.success) {
               console.log('别名：' + yunba_alias + " 设置成功");
@@ -67,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // 云巴消息监听
   yunba.set_message_cb(function (data) {
       console.log(data);
+      // 创建一个通知
       var notification = new Notification('DaoCloud Plus', {
           body: data.msg
       });
