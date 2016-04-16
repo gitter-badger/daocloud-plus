@@ -1,6 +1,8 @@
 daocloud-plus
 ==============
 
+[![Join the chat at https://gitter.im/lijy91/daocloud-plus](https://badges.gitter.im/lijy91/daocloud-plus.svg)](https://gitter.im/lijy91/daocloud-plus?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Build Status](https://api.travis-ci.org/lijy91/daocloud-plus.svg?branch=master)](https://travis-ci.org/lijy91/daocloud-plus)
 
 DaoCloud+ 项目是一个 [DaoCloud](https://daocloud.io) 迷你控制台托盘程序，用于更方便的查看控制台里 **代码构建** 及 **应用管理** 的相应信息，并且通过 ***[云巴](https://yunba.io/)*** + ***[Webhook](http://docs.daocloud.io/api/#webhook)*** 实现了消息推送功能，推送服务实现的项目地址： [daocloud-plus-notifier](https://github.com/lijy91/daocloud-plus-notifier)，主要使用了 [Electron](https://electron.atom.io) 和 [Vue.js](https://vuejs.org) 两个框架，并且使用了优秀的 [electron-boilerplate](https://github.com/szwacz/electron-boilerplate) 脚手架项目用于构建项目。
