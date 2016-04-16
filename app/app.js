@@ -28,7 +28,7 @@ const VueResource = require('vue-resource');
 const moment = require('moment');
 const uuid = require('uuid');
 const replaceall = require("replaceall");
-const yunba = new Yunba({'appkey': '<You Appkey>'});
+const yunba = new Yunba({'appkey': '<Your Appkey>'});
 
 Vue.use(VueResource);
 
@@ -37,32 +37,37 @@ Vue.http.options.root = 'https://openapi.daocloud.io/v1'
 var winPref = null;
 
 document.addEventListener('DOMContentLoaded', function () {
+  // 云巴推送
   var yunba_alias = localStorage.getItem('yunba_alias');
   if (!yunba_alias) {
     yunba_alias = uuid.v4();
     yunba_alias = replaceall("-", "", yunba_alias);
     localStorage.setItem('yunba_alias', yunba_alias);
   }
-  console.log(yunba_alias);
   yunba.init(function (success) {
-    yunba.connect(function (success, msg) {
-      if (success) {
-        yunba.set_alias({'alias': yunba_alias}, function (data) {
-          if (data.success) {
-            console.log('别名：' + yunba_alias + " 设置成功");
-          } else {
-            console.log(data.msg);
-          }
-        });
-      } else {
-        console.error(msg);
-      }
-    });
+    if (success) {
+      yunba.connect(function (success, msg) {
+        if (success) {
+          yunba.set_alias({'alias': yunba_alias}, function (data) {
+            if (data.success) {
+              console.log('别名：' + yunba_alias + " 设置成功");
+            } else {
+              console.log(data.msg);
+            }
+          });
+        } else {
+          console.error(msg);
+        }
+      });
+    } else {
+      console.error(msg);
+    }
   });
 
+  // 云巴消息监听
   yunba.set_message_cb(function (data) {
-      console.log('Topic:' + data.topic + ',Msg:' + data.msg);
-      var myNotification = new Notification('Title', {
+      console.log(data);
+      var myNotification = new Notification('DaoCloud Plus', {
           body: data.msg
       });
 
