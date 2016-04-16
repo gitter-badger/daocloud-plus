@@ -47,17 +47,17 @@
     </div>
   </header>
   <div class="ui basic segment" style="min-height:200px;margin: 0 -9px 0 -9px;">
-    <!--  -->
-    <div class="ui inverted dimmer" style="padding-top:60px;">
+    <!-- 加载指示器 -->
+    <div class="ui active inverted dimmer" v-if="loading">
+      <div class="ui medium text loader"></div>
+    </div>
+    <!-- 错误指示器 -->
+    <div class="ui active inverted dimmer" style="padding-top:60px;" v-if="has_error">
       <h2 class="ui header">
         <div class="content">
-          <a href="#">配置 API Token 即可使用</a>
+          程序发生异常<br>请检查你的Token
         </div>
       </h2>
-    </div>
-    <!-- 加载指示器 -->
-    <div class="ui {{ loading ? 'active' : '' }} inverted dimmer">
-      <div class="ui medium text loader"></div>
     </div>
     <!-- 代码构建 -->
     <div class="ui basic tab segment active" data-tab="build-flows">

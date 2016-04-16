@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // 云巴消息监听
   yunba.set_message_cb(function (data) {
       console.log(data);
-      var myNotification = new Notification('DaoCloud Plus', {
+      var notification = new Notification('DaoCloud Plus', {
           body: data.msg
       });
 
@@ -79,12 +79,13 @@ document.addEventListener('DOMContentLoaded', function () {
       loading: true,
       build_flows: [],
       apps: null,
+      has_error: false,
     },
     created: function () {
-      // 检查更新
-      this.checkNewVersion();
       // 初次启动获取代码构建数据
       this.fetchBuildFlows();
+      // 检查更新
+      this.checkNewVersion();
     },
     methods: {
       // 获取 API Token
@@ -121,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function () {
               win.show();
 
               winPref = win;
-              win.webContents.openDevTools();
+              // win.webContents.openDevTools();
             }
           },
           {
@@ -168,13 +169,13 @@ document.addEventListener('DOMContentLoaded', function () {
         this.$http.get('build-flows', null, {
           headers: { 'Authorization': 'token ' + this.getApiToken() }
         }).then(function (response) {
+          console.log(response);
           // set data on vm
           this.$set('build_flows', response.data.build_flows);
           this.$set('loading', false);
         }, function (response) {
-            // error callback
-            this.$set('loading', false);
-            console.log(response);
+          this.$set('loading', false);
+          this.$set('has_error', response.status != 200);
         });
       },
       // 获取应用管理数据
@@ -184,13 +185,13 @@ document.addEventListener('DOMContentLoaded', function () {
         this.$http.get('apps', null, {
           headers: { 'Authorization': 'token ' + this.getApiToken() }
         }).then(function (response) {
+          console.log(response);
           // set data on vm
           this.$set('apps', response.data.app);
           this.$set('loading', false);
         }, function (response) {
-            // error callback
-            this.$set('loading', false);
-            console.log(response);
+          this.$set('loading', false);
+          this.$set('has_error', response.status != 200);
         });
       }
     },
