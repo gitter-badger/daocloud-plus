@@ -27,7 +27,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     data: {
       api_token: localStorage.getItem('api_token'),
-      auto_launch: localStorage.getItem('auto_launch')
+      auto_launch: localStorage.getItem('auto_launch'),
+      notifier_url: 'http://daocloud-plus.blankapp.org/' + localStorage.getItem('yunba_alias'),
     },
 
     watch: {

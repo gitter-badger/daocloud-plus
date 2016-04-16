@@ -1,4 +1,4 @@
-#tray {
+#app {
   section {
     background: #fff;
     margin: 10px 13px 13px 13px;
@@ -94,12 +94,39 @@
   }
 
   .ui.segment > .list > .item {
-    padding-top: 6px;
-    padding-bottom: 6px;
+    padding-top: 8px;
+    padding-bottom: 8px;
   }
 
   .ui.segment > .list > .item > .content > .header{
     padding-bottom: 8px;
     font-size: 14px;
   }
+  .ui.list .list > .item [class*="right floated"],
+  .ui.list > .item [class*="right floated"] {
+    margin: 0em 1em 0em 1em;
+  }
+
+  .status .pending {
+
+  }
+  .status .started {
+
+  }
+  .status .success {
+    color: #22c36a;
+  }
+  .status .failure {
+
+  }
+  .status .error {
+
+  }
+  .status .cancelled {
+
+  }
+  .status .timeout {
+
+  }
+
 }

@@ -8,8 +8,8 @@
   <!-- <script src="./node_modules/jquery/dist/jquery.js"></script> -->
   <script>window.$ = window.jQuery = require('../../node_modules/jquery/dist/jquery.js');</script>
   <script src="../../node_modules/semantic-ui-css/semantic.js"></script>
-  <script src="../../vendor/electron_boilerplate/context_menu.js"></script>
-  <script src="../../vendor/electron_boilerplate/external_links.js"></script>
+  <script src="../../helpers/context_menu.js"></script>
+  <script src="../../helpers/external_links.js"></script>
   <script src="./preferences.js"></script>
   <script type="text/javascript">
     $(function () {
@@ -34,6 +34,11 @@
     <div class="field">
       <label>API Token</label>
       <input type="text" v-model="api_token" placeholder="用来授权 DaoCloud+ 通过 API 访问您的资源">
+    </div>
+
+    <div class="field">
+      <label>消息推送（使用Webhook实现）</label>
+      <input type="text" v-model="notifier_url" placeholder="设置你的Webhook即可以收到消息推送" readonly="true">
     </div>
   </form>
 </div>
