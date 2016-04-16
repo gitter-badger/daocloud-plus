@@ -58,12 +58,8 @@ document.addEventListener('DOMContentLoaded', function () {
               console.log(data.msg);
             }
           });
-        } else {
-          console.error(msg);
         }
       });
-    } else {
-      console.error(msg);
     }
   });
 
