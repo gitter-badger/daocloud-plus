@@ -24,31 +24,63 @@ const BrowserWindow = remote.BrowserWindow;
 const Menu = remote.Menu;
 const MenuItem = remote.MenuItem;
 const Vue = require('vue');
+const VueResource = require('vue-resource');
 const moment = require('moment');
-Vue.use(require('vue-resource'));
+const uuid = require('uuid');
+const replaceall = require("replaceall");
+const yunba = new Yunba({'appkey': '<You Appkey>'});
 
-const apiURL = "https://openapi.daocloud.io/v1";
+Vue.use(VueResource);
+
+Vue.http.options.root = 'https://openapi.daocloud.io/v1'
+
 var winPref = null;
 
 document.addEventListener('DOMContentLoaded', function () {
+  var yunba_alias = localStorage.getItem('yunba_alias');
+  if (!yunba_alias) {
+    yunba_alias = uuid.v4();
+    yunba_alias = replaceall("-", "", yunba_alias);
+    localStorage.setItem('yunba_alias', yunba_alias);
+  }
+  console.log(yunba_alias);
+  yunba.init(function (success) {
+    yunba.connect(function (success, msg) {
+      if (success) {
+        yunba.set_alias({'alias': yunba_alias}, function (data) {
+          if (data.success) {
+            console.log('别名：' + yunba_alias + " 设置成功");
+          } else {
+            console.log(data.msg);
+          }
+        });
+      } else {
+        console.error(msg);
+      }
+    });
+  });
+
+  yunba.set_message_cb(function (data) {
+      console.log('Topic:' + data.topic + ',Msg:' + data.msg);
+      var myNotification = new Notification('Title', {
+          body: data.msg
+      });
+
+  });
   var vm = new Vue({
-
-    el: '#tray',
-
+    el: '#app',
     data: {
       need_update: false,
       loading: true,
       build_flows: [],
       apps: null,
     },
-
     created: function () {
       // 检查更新
       this.checkNewVersion();
       // 初次启动获取代码构建数据
       this.fetchBuildFlows();
     },
-
     methods: {
       // 获取 API Token
       getApiToken: function () {
@@ -70,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
               }
               var win = new BrowserWindow({
                 width: 520,
-                height: 320,
+                height: 360,
                 show: false,
                 resizable: false,
                 alwaysOnTop: true,
@@ -128,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function () {
       fetchBuildFlows: function () {
         // 设置为加载中
         this.$set('loading', true);
-        this.$http.get(apiURL + '/build-flows', null, {
+        this.$http.get('build-flows', null, {
           headers: { 'Authorization': 'token ' + this.getApiToken() }
         }).then(function (response) {
           // set data on vm
@@ -136,6 +168,7 @@ document.addEventListener('DOMContentLoaded', function () {
           this.$set('loading', false);
         }, function (response) {
             // error callback
+            this.$set('loading', false);
             console.log(response);
         });
       },
@@ -143,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function () {
       fetchApps: function () {
         // 设置为加载中
         this.$set('loading', true);
-        this.$http.get(apiURL + '/apps', null, {
+        this.$http.get('apps', null, {
           headers: { 'Authorization': 'token ' + this.getApiToken() }
         }).then(function (response) {
           // set data on vm
@@ -151,6 +184,7 @@ document.addEventListener('DOMContentLoaded', function () {
           this.$set('loading', false);
         }, function (response) {
             // error callback
+            this.$set('loading', false);
             console.log(response);
         });
       }
@@ -162,8 +196,4 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
   });
-  // setInterval(function () {
-  //   vm.fetchBuildFlows();
-  //   vm.fetchApps();
-  // }, 5000);
 });

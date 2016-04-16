@@ -6,11 +6,13 @@
   <link rel="stylesheet" type="text/css" href="./node_modules/semantic-ui-css/semantic.css">
   <link rel="stylesheet" type="text/css" href="./vendor/icomoon/style.css">
   <link rel="stylesheet" type="text/css" href="./stylesheets/main.css">
-  <!-- <script src="./node_modules/jquery/dist/jquery.js"></script> -->
+  <script src="./node_modules/jquery/dist/jquery.js"></script>
   <script>window.$ = window.jQuery = require('./node_modules/jquery/dist/jquery.js');</script>
   <script src="./node_modules/semantic-ui-css/semantic.js"></script>
   <script src="helpers/context_menu.js"></script>
   <script src="helpers/external_links.js"></script>
+  <script src="./vendor/yunba/yunba-js-sdk.js"></script>
+  <script src="./vendor/yunba/socket.io-1.3.5.js"></script>
   <script src="./app.js"></script>
 
   <style type="text/css">
@@ -29,7 +31,7 @@
     });
   </script>
 </head>
-<body id="tray">
+<body id="app">
 <section>
   <header>
     <div class="ui equal width padded grid" onselectstart="return false;">
@@ -62,14 +64,14 @@
       <div class="ui relaxed divided list" id="build-flows">
         <div class="item" v-for="flow in build_flows">
           <div class="right floated content">
-            <a class="js-external-link" href="https://dashboard.daocloud.io/packages/{{flow.package_id}}">查看镜像</a>
+            {{ flow.created_at | moment }}
           </div>
-          <i class="large {{flow.src_provider}} middle aligned icon"></i>
+          <i class="big {{flow.src_provider}} middle aligned icon"></i>
 
           <div class="content">
             <a class="header js-external-link" href="https://dashboard.daocloud.io/build-flows/{{flow.id}}">{{flow.name}}</a>
             <div class="description">
-              {{ flow.created_at | moment }} | {{flow.status}}
+               {{flow.status}}
             </div>
           </div>
         </div>
@@ -79,9 +81,12 @@
     <div class="ui basic tab segment" data-tab="apps">
       <div class="ui relaxed divided list" id="apps">
         <div class="item" v-for="app in apps">
+          <div class="right floated content">
+            {{ app.last_operated_at | moment }}
+          </div>
           <div class="content">
-            <a class="header">{{ app.name }} | {{ app.release_name }}</a>
-            <div class="description">{{ app.last_operated_at | moment }} | {{ app.state }}</div>
+            <a class="header">{{ app.name }}</a>
+            <div class="description">{{ app.state }}</div>
           </div>
         </div>
       </div>
